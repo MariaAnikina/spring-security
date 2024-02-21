@@ -9,6 +9,7 @@
 <ul>
     <li th:each="newsi : ${news}">[[${newsi}]]</li>
 </ul>
+<a href="/auth/registration">Зарегистрировать пользователя</a>  <br>
 <a href="/news/create">Добавить новость</a>  <br>
 <a href="/person">Получить список всех работников</a>  <br>
 <form th:action="@{/logout}" th:method="POST">

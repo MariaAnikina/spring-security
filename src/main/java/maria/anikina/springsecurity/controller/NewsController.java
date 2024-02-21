@@ -15,23 +15,27 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping("/news")
+@RequestMapping("/")
 public class NewsController {
 
 	private final NewsService service;
 
-	@GetMapping
+	@GetMapping()
+	public String getNews() {
+		return "hello";
+	}
+	@GetMapping("news")
 	public String getNewsForMonth(Model model) {
 		model.addAttribute("news", service.getNewsForMonth());
 		return "get-news";
 	}
 
-	@GetMapping("/create")
+	@GetMapping("news/create")
 	public String createNews(@ModelAttribute("news") NewsEntity news) {
 		return "create-news";
 	}
 
-	@PostMapping("/save")
+	@PostMapping("news/save")
 	public String saveNews(@Valid @ModelAttribute("news") NewsEntity news,
 	                       BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
