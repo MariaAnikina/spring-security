@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "c59a680d-60ff-43cf-bb56-2640bd65e67c",
+		"name": "JWT токен",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28527065"
+	},
+	"item": [
+		{
+			"name": "регистрация пользователя",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "попытка зарегистрировать уже существующего пользователя",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "получение списка новостей",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "получение списка новостей неавторизированным пользователем",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "получение нового токена",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
