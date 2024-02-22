@@ -39,6 +39,6 @@ public class AuthController {
 			return "/auth/registration";
 		}
 		personService.registerPerson(person);
-		return "redirect:/news";
+		return "redirect:/auth/login";
 	}
 }

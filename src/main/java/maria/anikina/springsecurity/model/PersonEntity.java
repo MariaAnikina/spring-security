@@ -1,8 +1,6 @@
 package maria.anikina.springsecurity.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,6 +11,8 @@ import javax.persistence.*;
 @Setter
 @Component
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class PersonEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
