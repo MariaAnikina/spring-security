@@ -1,6 +1,7 @@
 package maria.anikina.springsecurity.service;
 
 import lombok.AllArgsConstructor;
+import maria.anikina.springsecurity.exception.UserAlreadyExistsException;
 import maria.anikina.springsecurity.model.PersonEntity;
 import maria.anikina.springsecurity.repository.PersonRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +25,9 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	@Transactional
 	public PersonEntity registerPerson(PersonEntity person) {
+		if (personRepository.findByUsername(person.getUsername()).isPresent()) {
+			throw new UserAlreadyExistsException("Пользователь с именем " + person.getUsername() + " уже существует");
+		}
 		String encodedPassword = passwordEncoder.encode(person.getPassword());
 		person.setPassword(encodedPassword);
 		return personRepository.save(person);

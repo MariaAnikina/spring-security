@@ -2,43 +2,39 @@ package maria.anikina.springsecurity.controller;
 
 import lombok.AllArgsConstructor;
 import maria.anikina.springsecurity.model.PersonEntity;
+import maria.anikina.springsecurity.security.JwtGeneration;
 import maria.anikina.springsecurity.service.PersonService;
-import maria.anikina.springsecurity.util.PersonValidator;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @AllArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/auth")
 public class AuthController {
-
-	private final PersonValidator personValidator;
 	private final PersonService personService;
-
-	@GetMapping("/login")
-	public String loginPage() {
-		return "auth/login";
-	}
-
-
-	@GetMapping("/registration")
-	public String registrationPage(@ModelAttribute("person") PersonEntity person) {
-		return "auth/registration";
-	}
-
+	private final JwtGeneration jwtGeneration;
+	private final AuthenticationManager authenticationManager;
 
 	@PostMapping("/registration")
-	public String performRegistration(@ModelAttribute("person") PersonEntity person,
-	                                  BindingResult bindingResult) {
-		personValidator.validate(person, bindingResult);
-		if (bindingResult.hasErrors()) {
-			return "/auth/registration";
-		}
+	public Map<String, String> performRegistration(@RequestBody PersonEntity person) {
 		personService.registerPerson(person);
-		return "redirect:/news";
+		String token = jwtGeneration.generationToken(person.getUsername());
+		return Map.of("jwt-token", token);
+	}
+
+	@PostMapping("/login")
+	public Map<String, String> performLogin(@RequestBody PersonEntity person) {
+		UsernamePasswordAuthenticationToken authInputToken =
+				new UsernamePasswordAuthenticationToken(person.getUsername(),
+						person.getPassword());
+		authenticationManager.authenticate(authInputToken);
+		String token = jwtGeneration.generationToken(person.getUsername());
+		return Map.of("jwt-token", token);
 	}
 }
